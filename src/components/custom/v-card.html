@@ -1,0 +1,122 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="v-card">
+    <style>
+        :host {
+            background: rgba(0, 0, 255, 0.1);
+            box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            display: block;
+            width: 50%;
+            max-width: 40rem;
+        }
+
+        .box:after,
+        .box:before {
+            content: "";
+            display: table;
+        }
+
+        .box:after {
+            clear: both;
+        }
+
+        .box .image {
+            float: left;
+        }
+
+        .box .data {
+            float: left;
+            padding-left: 1rem;
+        }
+
+        .box .data .name {
+            margin-bottom: 1rem;
+        }
+
+        .box .data .contact {
+            margin-bottom: 0.5rem;
+        }        
+    </style>
+    <template>
+        <div class="box">
+            <div class="image">
+                <img src="{{image}}" 
+                     alt="{{fullname}}" title="{{fullname}}" />
+            </div>
+            <div class="data">
+                <div class="name"><span>{{firstname}}</span> <span>{{surname}}</span></div>
+                <div class="contact">
+                    <template is="dom-if" if="{{email}}">
+                        <a href="{{emailURL}}">{{email}}</a>
+                    </template>                    
+                    <template is="dom-if" if="{{site}}">
+                        <a href="{{site}}">{{site}}</a>
+                    </template>                    
+                    <template is="dom-if" if="{{twitter}}">
+                        <a href="{{twitterURL}}">@<span>{{twitter}}</span></a>
+                    </template>                    
+                    <template is="dom-if" if="{{linkedin}}">
+                        <a href="{{linkedinURL}}">{{linkedin}}</a>                    
+                    </template>                    
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "v-card",
+            properties : {
+                email : {
+                    type : String
+                },
+                firstname : {
+                    type : String
+                },
+                image : {
+                    type : String,
+                    value : "anon.png"
+                },
+                linkedin: {
+                    type: String
+                },
+                site: {
+                    type: String
+                },
+                surname: {
+                    type: String
+                },
+                twitter: {
+                    type: String
+                },
+                emailURL : {
+                    type : String,
+                    computed : 'computeEmailURL(email)'
+                },
+                fullname : {
+                    type : String,
+                    computed : 'computeFullName(firstname, surname)'
+                },
+                linkedinURL : {
+                    type: String,
+                    computed: 'computeLinkedinURL(linkedin)'
+                },
+                twitterURL : {
+                    type: String,
+                    computed: 'computeTwitterURL(twitter)'
+                }
+            },
+            computeEmailURL : function (email) {
+                return 'mailto:' + email;
+            },
+            computeFullName : function (firstname, surname) {
+                return firstname + " " + surname;
+            },
+            computeLinkedinURL : function (linkedin) {
+                return 'https://es.linkedin.com/in/' + linkedin;
+            },
+            computeTwitterURL : function (twitter) {
+                return 'https://twitter.com/' + twitter;
+            }
+        });
+    </script>
+</dom-module>
